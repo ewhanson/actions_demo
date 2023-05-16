@@ -7,7 +7,7 @@ on:
 
 jobs:
   bundle_and_upload:
-    name: Bundle, upload, and create release
+    name: Package and upload
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +19,12 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             /tmp/files/authorRequirements.tar.gz
             /tmp/files/checksum.txt
+          # Set the body of the release to a list of commit messages since the last release from this branch
+          body: |
+              $(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s")
     permissions:
       contents: write

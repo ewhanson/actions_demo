@@ -36,5 +36,5 @@ jobs:
           files: |
             /tmp/files/authorRequirements.tar.gz
             /tmp/files/checksum.txt
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        permissions:
+          contents: write

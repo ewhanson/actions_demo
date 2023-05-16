@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Create release
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -12,6 +12,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   bundle_and_upload:
+    name: Bundle, upload, and create release
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -36,5 +37,5 @@ jobs:
           files: |
             /tmp/files/authorRequirements.tar.gz
             /tmp/files/checksum.txt
-        permissions:
-          contents: write
+    permissions:
+      contents: write

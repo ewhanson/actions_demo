@@ -23,8 +23,5 @@ jobs:
           files: |
             /tmp/files/authorRequirements.tar.gz
             /tmp/files/checksum.txt
-          # Set the body of the release to a list of commit messages since the last release from this branch
-          body: |
-              $(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"* %s")
     permissions:
       contents: write

@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
       - run: mkdir -p /tmp/files
       # Creates a tar.gz file in /tmp/files that is named the same as the repository name and excludes the .git directory
-      - run: tar cfz /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')-${GITHUB_REF#refs/*/}.tar.gz --exclude=.git .
+      - run: tar cfz /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')-${GITHUB_REF#refs/*/}.tar.gz --exclude=.git -C . $(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
       # Creates a checksum file that only includes the checksum string
       - run: md5sum /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')-${GITHUB_REF#refs/*/}.tar.gz | awk '{print $1}' > /tmp/files/checksum.txt
 

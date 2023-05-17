@@ -6,18 +6,18 @@ on:
       - "v*.*.*-*"
 
 jobs:
-  bundle_and_upload:
-    name: Package and upload
+  package_and_release:
+    name: Package and release
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Package
         uses: actions/checkout@v3
       - run: mkdir -p /tmp/files
       # Creates a tar.gz file in /tmp/files that is named the same as the repository name and excludes the .git directory
-      - run: tar cfz /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz --exclude=.git .
+      - run: tar cfz /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')-${GITHUB_REF#refs/*/}.tar.gz --exclude=.git .
       # Creates a checksum file that only includes the checksum string
-      - run: md5sum /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz | awk '{print $1}' > /tmp/files/checksum.txt
+      - run: md5sum /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')-${GITHUB_REF#refs/*/}.tar.gz | awk '{print $1}' > /tmp/files/checksum.txt
 
       - name: Release
         uses: softprops/action-gh-release@v1

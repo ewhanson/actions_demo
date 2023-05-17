@@ -23,7 +23,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz
-            /tmp/files/checksum.txt
+            /tmp/files/*
     permissions:
       contents: write

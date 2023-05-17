@@ -14,14 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: mkdir -p /tmp/files
-      - run: tar cfz /tmp/files/authorRequirements.tar.gz --exclude=.git .
-      - run: md5sum /tmp/files/authorRequirements.tar.gz > /tmp/files/checksum.txt
+      # Create a run command that creates a tar.gz file in /tmp/files that is named the same as the repository name
+      # and excludes the .git directory
+      - run: tar cfz /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz --exclude=.git .
+      - run: md5sum /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz > /tmp/files/checksum.txt
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            /tmp/files/authorRequirements.tar.gz
+            /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz
             /tmp/files/checksum.txt
     permissions:
       contents: write

@@ -1,4 +1,4 @@
-name: Create release
+name: Release plugin
 
 on:
   push:
@@ -14,10 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: mkdir -p /tmp/files
-      # Create a run command that creates a tar.gz file in /tmp/files that is named the same as the repository name
-      # and excludes the .git directory
+      # Creates a tar.gz file in /tmp/files that is named the same as the repository name and excludes the .git directory
       - run: tar cfz /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz --exclude=.git .
-      - run: md5sum /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz > /tmp/files/checksum.txt
+      # Creates a checksum file that only includes the checksum string
+      - run: md5sum /tmp/files/$(echo "${{ github.repository }}" | awk -F'/' '{print $2}').tar.gz | awk '{print $1}' > /tmp/files/checksum.txt
 
       - name: Release
         uses: softprops/action-gh-release@v1
